@@ -1,0 +1,107 @@
+/* src/styles/Navbar.css */
+
+/* Navbar Base */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    background: transparent;
+    backdrop-filter: none;
+    transition: all 0.5s ease-in-out;
+    z-index: 999;
+    overflow-x: hidden;
+}
+
+/* Logo */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    /* Push nav links to the right */
+    text-decoration: none;
+}
+
+
+.navbar-logo img {
+    height: 130px;
+    margin-top: 0.7rem;
+    transition: all 0.5s ease-in-out;
+    object-fit: contain;
+}
+
+/* Nav Links */
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    /* slightly reduced spacing */
+    list-style: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ef7f1a;
+    transition: all 0.5s ease-in-out;
+    padding-right: 18rem;
+
+    /* margin-left: 3rem; */
+    /* ✅ Shift nav links to the left */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Hover Effect - Color + Underline */
+.nav-links a:hover {
+    color: #008080;
+    /* Teal hover */
+}
+
+/* Optional: Underline effect like a pro */
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: #008080;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+
+/* Navbar After Scroll */
+.navbar-scrolled {
+    /* background: rgba(255, 255, 255, 0.85); */
+    /* Light transparent white */
+    backdrop-filter: blur(90px);
+    /* Blur effect */
+    height: 70px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Shrink Logo */
+.navbar-scrolled .navbar-logo img {
+    height: 100px;
+}
+
+/* Shrink Navlinks */
+.navbar-scrolled .nav-links {
+    font-size: 1.2rem;
+    color: #1d3557;
+    /* Deep navy blue */
+}
+
+.navbar-scrolled .nav-links a {
+    color: #1d3557;
+}

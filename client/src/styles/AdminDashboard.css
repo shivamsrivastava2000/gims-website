@@ -1,0 +1,147 @@
+.admin-dashboard {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.admin-dashboard h1 {
+    text-align: center;
+    color: #0c2d57;
+    margin-bottom: 2rem;
+}
+
+.metrics-grid {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.metric-card {
+    background-color: #f5f9ff;
+    border-left: 6px solid #0c2d57;
+    border-radius: 12px;
+    padding: 1.5rem;
+    flex: 1 1 250px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    text-align: center;
+}
+
+.metric-card h3 {
+    font-size: 2.2rem;
+    color: #0c2d57;
+    margin-bottom: 0.3rem;
+}
+
+.metric-card p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.admin-section {
+    margin-top: 3rem;
+}
+
+.admin-section h2 {
+    margin-bottom: 1rem;
+    color: #0c2d57;
+    font-size: 1.4rem;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.7rem;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+    color: #333;
+    vertical-align: top;
+}
+
+table th {
+    background-color: #f1f5f9;
+    color: #0c2d57;
+}
+
+table a {
+    color: #1976d2;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+button {
+    background-color: #0c2d57;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+button:hover {
+    background-color: #083b79;
+}
+
+.expanded-cell {
+    background-color: #f9fafc;
+    padding: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.details-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    font-size: 0.95rem;
+}
+
+.detail-section {
+    flex: 1 1 300px;
+    background-color: #fff;
+    border-left: 4px solid #0c2d57;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
+}
+
+.detail-section h4 {
+    margin-bottom: 0.6rem;
+    color: #0c2d57;
+    font-size: 1.1rem;
+}
+
+.download-btn {
+    background-color: #0c2d57;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    background-color: #083b79;
+}

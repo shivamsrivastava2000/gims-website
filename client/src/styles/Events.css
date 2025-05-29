@@ -1,0 +1,42 @@
+.events-section {
+    padding: 3rem 1rem;
+    background: #f5f7fa;
+    text-align: center;
+}
+
+.events-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #0b2a4d;
+}
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.video-container {
+    width: 100%;
+    max-width: 360px;
+}
+
+.video-container p {
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.events-section {
+    background: #ffffff;
+    padding: 80px 20px;
+}
+
+.event-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}

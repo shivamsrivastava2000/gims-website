@@ -1,0 +1,41 @@
+.success-highlight {
+    padding: 80px 20px;
+    background: #f5f7fa;
+    text-align: center;
+}
+
+.success-content {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.success-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+}
+
+.success-content p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.success-content img {
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
+    /* NEW: limit image height */
+    object-fit: contain;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.success-highlight {
+    background: #f5f7fa;
+    /* light grey */
+    padding: 80px 20px;
+    text-align: center;
+}

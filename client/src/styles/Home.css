@@ -1,0 +1,14 @@
+.hero-section {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    max-width: 1920px;
+    object-fit: cover;
+}

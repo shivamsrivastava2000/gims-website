@@ -1,0 +1,108 @@
+.time-machine {
+    padding: 80px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.time-title {
+    font-size: 2.8rem;
+    margin-bottom: 50px;
+    font-family: 'Poppins', sans-serif;
+    color: #1a1a1a;
+}
+
+.timeline-container {
+    position: relative;
+    display: flex;
+    gap: 40px;
+    overflow-x: auto;
+    padding-bottom: 30px;
+    scrollbar-width: thin;
+    scrollbar-color: #008080 #e0e0e0;
+}
+
+.timeline-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.timeline-container::-webkit-scrollbar-thumb {
+    background: #008080;
+    border-radius: 10px;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: #ef7f1a;
+    z-index: 1;
+}
+
+.timeline-card {
+    flex: 0 0 300px;
+    background: #f5f7fa;
+    border-radius: 12px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: left;
+    z-index: 2;
+    transition: transform 0.5s ease;
+}
+
+.timeline-card:hover {
+    transform: translateY(-10px);
+}
+
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    background: #ef7f1a;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: -8px;
+    transform: translateY(-50%);
+    z-index: 3;
+}
+
+.timeline-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+}
+
+.timeline-card h3 span {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: normal;
+    margin-top: 8px;
+    color: #ef7f1a;
+}
+
+.timeline-card ul {
+    list-style-type: circle;
+    padding-left: 20px;
+}
+
+.timeline-card ul li {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Fade-in-up Animation */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

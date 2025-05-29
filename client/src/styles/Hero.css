@@ -1,0 +1,42 @@
+.hero-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* Full viewport height */
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    /* Default for all images */
+}
+
+/* Specific adjustment for image1.png and image6.png */
+.hero-container img[src*="image1.png"],
+.hero-container img[src*="image6.png"] {
+    transform: translateY(80px);
+    /* move image down by 50px */
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    backdrop-filter: brightness(0.8);
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-text p {
+    font-size: 1.5rem;
+}
