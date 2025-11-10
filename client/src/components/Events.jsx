@@ -3,10 +3,11 @@ import '../styles/Events.css';
 
 const Events = () => {
     const videos = [
-        { id: '5Ct7HIf1jOg', title: 'Matri Shark Tank Pitch' },
+        { id: 'C2_bzLKPEa4', title: 'Matri Shark Tank Pitch' }, // new video
         { id: 'vPfH1JT6X2M', title: 'GIMS CMI Overview' },
         { id: 'o2fbnXOR-1Q', title: 'Incubation Intro by GIMS' },
     ];
+
 
     return (
         <section className="events-section">

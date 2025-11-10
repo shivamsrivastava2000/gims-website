@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const formRoutes = require("./routes/formRoutes");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const appointmentRoutes = require("./routes/appointmentRoutes"); // ✅ NEW
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.get("/health", (req, res) => res.status(200).json({ status: "UP" }));
 app.use("/api/forms", formRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/appointments", appointmentRoutes); // ✅ NEW
 
 // MongoDB Connection + Server Start
 mongoose

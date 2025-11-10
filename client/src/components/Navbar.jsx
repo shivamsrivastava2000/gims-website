@@ -4,7 +4,7 @@ import { auth } from '../firebaseConfig';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import '../styles/Navbar.css';
 import '../styles/Login.css'; // for .logout-button styling
-import logo from '../assets/images/image12.png';
+import logo from '../assets/images/image112.png';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

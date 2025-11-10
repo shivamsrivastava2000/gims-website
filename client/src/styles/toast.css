@@ -1,0 +1,104 @@
+/* Premium, Apple-ish toast styling for React-Toastify */
+
+.toast-modern {
+    --toast-bg: rgba(17, 24, 39, 0.8);
+    /* slate-900 @ 80% */
+    --toast-text: #ffffff;
+    --toast-border: rgba(255, 255, 255, 0.08);
+    --toast-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    --toast-radius: 14px;
+
+    position: relative;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: var(--toast-bg) !important;
+    color: var(--toast-text) !important;
+    border: 1px solid var(--toast-border) !important;
+    border-radius: var(--toast-radius) !important;
+    box-shadow: var(--toast-shadow) !important;
+    padding: 12px 14px !important;
+    letter-spacing: 0.2px;
+}
+
+/* Left accent bar per variant */
+.toast-modern::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 4px;
+    border-radius: 4px;
+    background: var(--accent, #64748b);
+}
+
+/* Variants — subtle but clear */
+.toast-success {
+    --accent: #22c55e;
+}
+
+/* green-500 */
+.toast-error {
+    --accent: #ef4444;
+}
+
+/* red-500 */
+.toast-info {
+    --accent: #3b82f6;
+}
+
+/* blue-500 */
+.toast-warning {
+    --accent: #f59e0b;
+}
+
+/* amber-500 */
+
+/* Content typography */
+.toast-content {
+    display: grid;
+    gap: 2px;
+}
+
+.toast-title {
+    font-weight: 600;
+    font-size: 14.5px;
+    line-height: 1.25;
+}
+
+.toast-detail {
+    opacity: 0.85;
+    font-size: 13px;
+}
+
+/* Icon & close button refinement */
+.Toastify__toast-icon {
+    width: 18px !important;
+    font-size: 16px !important;
+    opacity: 0.95 !important;
+    margin-inline-end: 8px !important;
+}
+
+.Toastify__close-button {
+    color: #ffffff !important;
+    opacity: 0.45 !important;
+    transition: opacity .2s ease;
+}
+
+.Toastify__close-button:hover {
+    opacity: 0.9 !important;
+}
+
+/* Thin progress bar */
+.toast-progress {
+    height: 2px !important;
+    background: rgba(255, 255, 255, 0.55) !important;
+    border-radius: 0 0 14px 14px !important;
+}
+
+/* Loading accent (subtle blue/gray) */
+.toast-loading {
+    --accent: #60a5fa;
+}
+
+/* blue-400 */

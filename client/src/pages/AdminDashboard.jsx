@@ -8,8 +8,10 @@ const AdminDashboard = () => {
     const [user, setUser] = useState(null);
     const [users, setUsers] = useState([]);
     const [forms, setForms] = useState([]);
+    const [appointments, setAppointments] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [expandedRows, setExpandedRows] = useState({});
+    const [appointmentFilterMonth, setAppointmentFilterMonth] = useState("");
     const navigate = useNavigate();
 
     const bossEmail = "shivamsrivastava126@gmail.com";
@@ -22,7 +24,6 @@ const AdminDashboard = () => {
                 setUser(currentUser);
             }
         });
-
         return () => unsub();
     }, []);
 
@@ -35,19 +36,78 @@ const AdminDashboard = () => {
             fetch("http://localhost:5000/api/forms/all")
                 .then((res) => res.json())
                 .then((data) => setForms(data));
+
+            fetch("http://localhost:5000/api/appointments/all")
+                .then((res) => res.json())
+                .then((data) => setAppointments(data));
         }
     }, [user]);
 
-    if (!user) return null;
+    const deleteAppointment = (id) => {
+        fetch(`http://localhost:5000/api/appointments/${id}`, { method: "DELETE" })
+            .then((res) => res.json())
+            .then(() => {
+                setAppointments((prev) => prev.filter((a) => a._id !== id));
+            });
+    };
 
-    // Metrics logic
-    const totalSubmissions = forms.length;
-    const thisMonth = forms.filter((f) => {
-        const d = new Date(f.submitted_at);
-        const now = new Date();
-        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-    }).length;
-    const uniqueEmails = new Set(forms.map((f) => f.email)).size;
+    const exportAppointmentsCSV = () => {
+        const headers = ["Name", "Email", "Message", "Date & Time"];
+        const rows = appointments.map((a) => [
+            a.name,
+            a.email,
+            a.message,
+            new Date(a.appointmentDate).toLocaleString(),
+        ]);
+        const csvContent =
+            "data:text/csv;charset=utf-8," +
+            [headers, ...rows].map((e) => e.join(",")).join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "appointments.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const exportFormsCSV = () => {
+        const headers = [
+            "Incubator",
+            "Email",
+            "Phone",
+            "City",
+            "State",
+            "Membership",
+            "Submitted At",
+        ];
+        const rows = forms.map((f) => [
+            f.name_of_incubator,
+            f.email,
+            f.phone,
+            f.city,
+            f.state,
+            f.membership_type,
+            new Date(f.submitted_at).toLocaleString(),
+        ]);
+        const csvContent =
+            "data:text/csv;charset=utf-8," +
+            [headers, ...rows].map((e) => e.join(",")).join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "membership_submissions.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const filteredAppointments = appointments.filter((a) => {
+        if (!appointmentFilterMonth) return true;
+        const month = new Date(a.appointmentDate).getMonth() + 1;
+        return month === parseInt(appointmentFilterMonth);
+    });
+
     const renderExpandedDetails = (f) => {
         return (
             <div className="details-container">
@@ -61,7 +121,6 @@ const AdminDashboard = () => {
                     <p><strong>Year Started:</strong> {f.year_of_starting}</p>
                     <p><strong>Legal Status:</strong> {f.legal_status}</p>
                 </div>
-
                 <div className="detail-section">
                     <h4>📍 Address</h4>
                     <p>{f.street_line_1}</p>
@@ -69,7 +128,6 @@ const AdminDashboard = () => {
                     <p>{f.landmark}</p>
                     <p>{f.city}, {f.state} - {f.postal_code}</p>
                 </div>
-
                 <div className="detail-section">
                     <h4>📞 Contacts</h4>
                     {f.contacts?.map((c, i) => (
@@ -78,7 +136,6 @@ const AdminDashboard = () => {
                         </div>
                     ))}
                 </div>
-
                 <div className="detail-section">
                     <h4>🏢 Infrastructure</h4>
                     <p><strong>Total Area:</strong> {f.total_area} sq.ft</p>
@@ -88,7 +145,6 @@ const AdminDashboard = () => {
                     <p><strong>Renew Contract:</strong> {f.will_renew_contract ? "Yes" : "No"}</p>
                     <p><strong>Startups Supported:</strong> {f.startup_supported}</p>
                 </div>
-
                 <div className="detail-section">
                     <h4>🛠 Technical Support</h4>
                     <ul>
@@ -99,7 +155,6 @@ const AdminDashboard = () => {
                         <li>Technical Experts (External): {f.technical_experts_external ? "Yes" : "No"}</li>
                     </ul>
                 </div>
-
                 <div className="detail-section">
                     <h4>🎓 Mentoring & Funding</h4>
                     <ul>
@@ -115,117 +170,72 @@ const AdminDashboard = () => {
                         <li>Loan Assistance: {f.loan_assistance}</li>
                     </ul>
                 </div>
-
                 <div className="detail-section">
                     <h4>📄 ISBA & Documents</h4>
                     <p>ISBA Member Before: {f.is_member_of_isba ? "Yes" : "No"}</p>
-                    <p>Nominee Letter:
-                        {f.nominee_letter ? (
-                            <a href={f.nominee_letter} target="_blank" rel="noreferrer">View</a>
-                        ) : (
-                            "N/A"
-                        )}
-                    </p>
-
-                    <p>Certificate of Registration:
-                        {f.certificate_of_registration ? (
-                            <a href={f.certificate_of_registration} target="_blank" rel="noreferrer">View</a>
-                        ) : (
-                            "N/A"
-                        )}
-                    </p>
-
+                    <p>Nominee Letter: {f.nominee_letter ? <a href={f.nominee_letter} target="_blank" rel="noreferrer">View</a> : "N/A"}</p>
+                    <p>Certificate of Registration: {f.certificate_of_registration ? <a href={f.certificate_of_registration} target="_blank" rel="noreferrer">View</a> : "N/A"}</p>
                 </div>
             </div>
         );
     };
 
-    const exportToCSV = () => {
-        if (!forms.length) return;
-
-        const headers = [
-            "Incubator",
-            "Email",
-            "Phone",
-            "City",
-            "State",
-            "Membership",
-            "Submitted At"
-        ];
-
-        const rows = forms.map((f) => [
-            f.name_of_incubator,
-            f.email,
-            f.phone,
-            f.city,
-            f.state,
-            f.membership_type,
-            new Date(f.submitted_at).toLocaleString()
-        ]);
-
-        const csvContent =
-            "data:text/csv;charset=utf-8," +
-            [headers, ...rows].map((e) => e.join(",")).join("\n");
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "membership_submissions.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
-
-
-    return (
-        <div className="admin-dashboard">
-            <h1>🛡️ Admin Control Panel</h1>
-
-            <div className="metrics-grid">
-                <div className="metric-card">
-                    <h3>{totalSubmissions}</h3>
-                    <p>Total Applications</p>
+    const renderAppointmentTable = () => {
+        if (!filteredAppointments.length) return <p>No appointments match the filter.</p>;
+        return (
+            <>
+                <div className="filter-group">
+                    <label>Filter by Month: </label>
+                    <select value={appointmentFilterMonth} onChange={(e) => setAppointmentFilterMonth(e.target.value)}>
+                        <option value="">All</option>
+                        {[...Array(12)].map((_, i) => (
+                            <option key={i + 1} value={i + 1}>{i + 1}</option>
+                        ))}
+                    </select>
+                    <button onClick={exportAppointmentsCSV}>📤 Export CSV</button>
                 </div>
-                <div className="metric-card">
-                    <h3>{thisMonth}</h3>
-                    <p>This Month</p>
-                </div>
-                <div className="metric-card">
-                    <h3>{uniqueEmails}</h3>
-                    <p>Unique Applicants</p>
-                </div>
-            </div>
-
-            <section className="admin-section">
-                <h2>👥 Registered Users</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Email</th>
                             <th>Name</th>
-                            <th>UID</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Date & Time</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((u) => (
-                            <tr key={u.uid}>
-                                <td>{u.email}</td>
-                                <td>{u.name}</td>
-                                <td>{u.uid}</td>
+                        {filteredAppointments.map((a) => (
+                            <tr key={a._id}>
+                                <td>{a.name}</td>
+                                <td>{a.email}</td>
+                                <td>{a.message}</td>
+                                <td>{new Date(a.appointmentDate).toLocaleString()}</td>
+                                <td>
+                                    <button onClick={() => deleteAppointment(a._id)}>❌ Delete</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-            </section>
-            {/* Membership Applications */}
+            </>
+        );
+    };
+
+    if (!user) return null;
+
+    return (
+        <div className="admin-dashboard">
+            <h1>🛡️ Admin Control Panel</h1>
+            <div className="metrics-grid">
+                <div className="metric-card"><h3>{forms.length}</h3><p>Total Applications</p></div>
+                <div className="metric-card"><h3>{appointments.length}</h3><p>Total Appointments</p></div>
+                <div className="metric-card"><h3>{users.length}</h3><p>Registered Users</p></div>
+            </div>
+
             <section className="admin-section">
                 <h2>📝 Membership Submissions</h2>
-
-                <button className="download-btn" onClick={exportToCSV}>
-                    📥 Download CSV
-                </button>
-
-
+                <button className="download-btn" onClick={exportFormsCSV}>📥 Download CSV</button>
                 <input
                     type="text"
                     className="search-input"
@@ -233,7 +243,6 @@ const AdminDashboard = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-
                 <table>
                     <thead>
                         <tr>
@@ -262,29 +271,11 @@ const AdminDashboard = () => {
                                         <td>{f.city}</td>
                                         <td>{f.state}</td>
                                         <td>{f.membership_type}</td>
-                                        <td>
-                                            {f.nominee_letter ? (
-                                                <a href={f.nominee_letter} target="_blank" rel="noopener noreferrer">View</a>
-                                            ) : "N/A"}
-                                        </td>
-                                        <td>
-                                            {f.certificate_of_registration ? (
-                                                <a href={f.certificate_of_registration} target="_blank" rel="noopener noreferrer">View</a>
-                                            ) : "N/A"}
-                                        </td>
+                                        <td>{f.nominee_letter ? <a href={f.nominee_letter} target="_blank" rel="noreferrer">View</a> : "N/A"}</td>
+                                        <td>{f.certificate_of_registration ? <a href={f.certificate_of_registration} target="_blank" rel="noreferrer">View</a> : "N/A"}</td>
                                         <td>{f.submitted_at ? new Date(f.submitted_at).toLocaleString() : "N/A"}</td>
-                                        <td>
-                                            <button onClick={() =>
-                                                setExpandedRows(prev => ({
-                                                    ...prev,
-                                                    [f._id]: !prev[f._id]
-                                                }))
-                                            }>
-                                                {expandedRows[f._id] ? "Hide" : "View All"}
-                                            </button>
-                                        </td>
+                                        <td><button onClick={() => setExpandedRows(prev => ({ ...prev, [f._id]: !prev[f._id] }))}>{expandedRows[f._id] ? "Hide" : "View All"}</button></td>
                                     </tr>
-
                                     {expandedRows[f._id] && (
                                         <tr>
                                             <td colSpan="9" className="expanded-cell">
@@ -293,10 +284,14 @@ const AdminDashboard = () => {
                                         </tr>
                                     )}
                                 </React.Fragment>
-
                             ))}
                     </tbody>
                 </table>
+            </section>
+
+            <section className="admin-section">
+                <h2>📅 Booked Appointments</h2>
+                {renderAppointmentTable()}
             </section>
         </div>
     );

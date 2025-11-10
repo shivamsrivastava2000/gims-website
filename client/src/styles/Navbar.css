@@ -1,4 +1,15 @@
 /* src/styles/Navbar.css */
+/* Ensure no default top gap and define navbar height */
+html,
+body {
+    margin: 0;
+}
+
+:root {
+    --nav-h: 90px;
+}
+
+/* matches .navbar height */
 
 /* Navbar Base */
 .navbar {

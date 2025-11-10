@@ -1,7 +1,7 @@
 // src/pages/AboutPage.jsx
 import React from 'react';
 import "../styles/AboutPage.css";
-import Contact from "../components/Contact";
+import Contact from "../components/contact";
 
 export default function AboutPage() {
     return (

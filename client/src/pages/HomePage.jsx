@@ -5,7 +5,7 @@ import Gallery from "../components/Gallery";
 import SuccessHighlight from "../components/SuccessHighlight";
 import Journey from "../components/Journey";
 import Events from "../components/Events";
-import Contact from "../components/Contact";
+import Contact from "../components/contact";
 
 
 export default function HomePage() {

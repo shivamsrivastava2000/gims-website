@@ -53,7 +53,7 @@ exports.submitForm = async (req, res) => {
 
 exports.getAllApplications = async (req, res) => {
     try {
-        const applications = await MembershipApplication.find().sort({ createdAt: -1 });
+        const applications = await MembershipApplication.find().sort({ submitted_at: -1 });
         res.status(200).json(applications);
     } catch (err) {
         console.error("❌ Fetch Error:", err.message);

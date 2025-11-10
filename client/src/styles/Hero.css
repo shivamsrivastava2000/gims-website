@@ -1,24 +1,47 @@
 .hero-container {
     position: relative;
     width: 100%;
-    height: 100vh;
-    /* Full viewport height */
+    height: calc(100vh - var(--nav-h, 90px));
+    margin-top: var(--nav-h, 90px);
     overflow: hidden;
+}
+
+.hero-swiper {
+    width: 100%;
+    height: 100%;
 }
 
 .hero-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    /* Default for all images */
+    object-fit: contain;
+    background-color: black;
+    /* optional: fills empty space cleanly */
 }
 
-/* Specific adjustment for image1.png and image6.png */
-.hero-container img[src*="image1.png"],
-.hero-container img[src*="image6.png"] {
-    transform: translateY(80px);
-    /* move image down by 50px */
+
+/* Navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+    color: white;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    color: #ef7f1a;
+}
+
+/* Pagination dots */
+.swiper-pagination-bullet {
+    background: white;
+    opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+    background: #00e0ff;
+    opacity: 1;
 }
 
 .hero-text {

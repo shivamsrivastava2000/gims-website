@@ -281,7 +281,7 @@ export default function ApplyPage() {
 
                     <button type="submit" className="submit-btn">Submit</button>
                 </form>
-                <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
+                <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
             </div>
         </div>
     );

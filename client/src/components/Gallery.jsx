@@ -15,15 +15,17 @@ const Gallery = () => {
             <h2 className="gallery-heading">Our Facilities & Events</h2>
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
-                spaceBetween={20}
-                slidesPerView={1.2}
+                spaceBetween={16}
+                slidesPerView={2}
                 navigation
                 pagination={{ clickable: true }}
-                autoplay={{ delay: 2500, disableOnInteraction: false }}
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
                 loop={true}
                 breakpoints={{
-                    768: { slidesPerView: 2.5 },
-                    1024: { slidesPerView: 3 },
+                    640: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1024: { slidesPerView: 4 },
+                    1280: { slidesPerView: 5 },
                 }}
             >
                 {images.map((img, i) => (

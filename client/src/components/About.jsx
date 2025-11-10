@@ -42,7 +42,7 @@ const About = () => {
                         <h3>630+<span> Bed Hospital Access</span></h3>
                     </div>
                     <div className="about-metric-card">
-                        <h3>10+<span> Startups Incubated</span></h3>
+                        <h3>35+<span> Startups Incubated</span></h3>
                     </div>
                     <div className="about-metric-card">
                         <h3>₹X Lakhs+<span> Grants Supported</span></h3>

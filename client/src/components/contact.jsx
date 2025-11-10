@@ -1,22 +1,105 @@
 import '../styles/Contact.css';
 import { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
-    const [form, setForm] = useState({
-        name: '',
-        email: '',
-        date: '',
-        message: '',
-    });
+    const [form, setForm] = useState({ name: '', email: '', message: '' });
+    const [appointmentDate, setAppointmentDate] = useState(null);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    // ---------- Premium toast helpers ----------
+    const makeBody = (title, detail = '') => (
+        <div className="toast-content">
+            <div className="toast-title">{title}</div>
+            {detail ? <div className="toast-detail">{detail}</div> : null}
+        </div>
+    );
+
+    const icons = {
+        success: '✓',
+        error: '⨯',
+        info: 'ℹ︎',
+        warning: '⚠︎',
+        loading: '⏳',
+    };
+
+    const showLoadingToast = (title = 'Booking your appointment...') =>
+        toast.loading(makeBody(title), {
+            icon: icons.loading,
+            className: 'toast-modern toast-loading',
+            progressClassName: 'toast-progress',
+            closeButton: true,
+        });
+
+    const updateToast = (id, type, title, detail = '') =>
+        toast.update(id, {
+            render: makeBody(title, detail),
+            type,
+            isLoading: false,
+            autoClose: 3000,
+            icon: icons[type] ?? undefined,
+            className: `toast-modern toast-${type}`,
+            progressClassName: 'toast-progress',
+            closeButton: true,
+        });
+    // ------------------------------------------
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', form);
-        // TODO: Connect to backend
+
+        if (!form.name || !form.email || !appointmentDate || !form.message) {
+            // immediate error toast (no request)
+            toast.error(makeBody('Please fill in all fields'), {
+                icon: icons.error,
+                className: 'toast-modern toast-error',
+                progressClassName: 'toast-progress',
+                closeButton: true,
+                autoClose: 3000,
+            });
+            return;
+        }
+
+        const bookingData = {
+            ...form,
+            appointmentDate: appointmentDate.toISOString(),
+        };
+
+        // ✅ show toast immediately
+        const toastId = showLoadingToast();
+
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/appointments/book`, {
+
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookingData),
+            });
+
+            // If server returns non-JSON on error, guard this:
+            let data = {};
+            try {
+                data = await res.json();
+            } catch (_) {
+                /* ignore parse error; handled below */
+            }
+
+            if (res.ok && data?.success) {
+                updateToast(toastId, 'success', 'Appointment booked');
+                setForm({ name: '', email: '', message: '' });
+                setAppointmentDate(null);
+            } else {
+                const msg = data?.message || 'Booking failed';
+                updateToast(toastId, 'error', msg, 'Please try again.');
+            }
+        } catch (error) {
+            console.error('Appointment error:', error);
+            updateToast(toastId, 'error', 'Server error', 'Please try again.');
+        }
     };
 
     return (
@@ -60,11 +143,15 @@ const Contact = () => {
                             />
                         </div>
 
-                        <input
-                            type="date"
-                            name="date"
-                            value={form.date}
-                            onChange={handleChange}
+                        <DatePicker
+                            selected={appointmentDate}
+                            onChange={(date) => setAppointmentDate(date)}
+                            showTimeSelect
+                            timeFormat="HH:mm"
+                            timeIntervals={30}
+                            dateFormat="MMMM d, yyyy h:mm aa"
+                            placeholderText="Select Date & Time"
+                            className="appointment-datepicker"
                             required
                         />
 

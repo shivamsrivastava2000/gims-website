@@ -15,6 +15,7 @@ import ThankYou from './pages/ThankYou';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './styles/toast.css';
 
 function App() {
     return (
@@ -32,7 +33,9 @@ function App() {
                 <Route path="/thank-you" element={<ThankYou />} />
             </Routes>
             <Footer />
-            <ToastContainer position="top-right" autoClose={3000} theme="colored" />
+            {/* ✅ Toasts work globally */}
+            <ToastContainer position="top-right" autoClose={4000} limit={3} theme="light" pauseOnHover />
+
         </>
     );
 }
