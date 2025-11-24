@@ -29,19 +29,20 @@ const Login = () => {
 
     const saveUserToBackend = async (firebaseUser) => {
         try {
-            await fetch('http://localhost:5000/api/users/save', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+            await fetch("https://gims-website.onrender.com/api/users/save", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     uid: firebaseUser.uid,
                     email: firebaseUser.email,
-                    name: firebaseUser.displayName || 'No Name',
+                    name: firebaseUser.displayName || "No Name",
                 }),
             });
         } catch (err) {
-            console.error('Error saving user:', err.message);
+            console.error("Error saving user:", err);
         }
     };
+
 
     const handleEmailAuth = async (e) => {
         e.preventDefault();

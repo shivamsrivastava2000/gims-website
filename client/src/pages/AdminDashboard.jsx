@@ -29,27 +29,28 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         if (user) {
-            fetch("http://localhost:5000/api/admin/users")
+            fetch("https://gims-website.onrender.com/api/admin/users")
                 .then((res) => res.json())
                 .then((data) => setUsers(data));
 
-            fetch("http://localhost:5000/api/forms/all")
+            fetch("https://gims-website.onrender.com/api/forms/all")
                 .then((res) => res.json())
                 .then((data) => setForms(data));
 
-            fetch("http://localhost:5000/api/appointments/all")
+            fetch("https://gims-website.onrender.com/api/appointments/all")
                 .then((res) => res.json())
                 .then((data) => setAppointments(data));
         }
     }, [user]);
 
     const deleteAppointment = (id) => {
-        fetch(`http://localhost:5000/api/appointments/${id}`, { method: "DELETE" })
+        fetch(`https://gims-website.onrender.com/api/appointments/${id}`, { method: "DELETE" })
             .then((res) => res.json())
             .then(() => {
                 setAppointments((prev) => prev.filter((a) => a._id !== id));
             });
     };
+
 
     const exportAppointmentsCSV = () => {
         const headers = ["Name", "Email", "Message", "Date & Time"];

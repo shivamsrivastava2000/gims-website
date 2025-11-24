@@ -32,7 +32,7 @@ const Dashboard = () => {
 
     const fetchUserForms = async (email) => {
         try {
-            const res = await fetch('http://localhost:5000/api/forms/all');
+            const res = await fetch("https://gims-website.onrender.com/api/forms/all");
             const data = await res.json();
             const userForms = data.filter((form) => form.email === email);
             setForms(userForms);
@@ -40,6 +40,7 @@ const Dashboard = () => {
             console.error("Error fetching forms:", err.message);
         }
     };
+
 
     if (loading) return <div className="dashboard-loading">Loading your dashboard...</div>;
 

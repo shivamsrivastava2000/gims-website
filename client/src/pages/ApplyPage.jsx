@@ -95,10 +95,11 @@ export default function ApplyPage() {
         if (registrationCertificate) payload.append("registrationCertificate", registrationCertificate);
 
         try {
-            const res = await fetch("http://localhost:5000/api/forms/apply", {
+            const res = await fetch("https://gims-website.onrender.com/api/forms/apply", {
                 method: "POST",
                 body: payload
             });
+
 
             const result = await res.json();
             if (res.ok) {

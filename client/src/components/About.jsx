@@ -3,7 +3,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/About.css';
 
+// ✅ Put these images inside: client/src/assets/initiatives/
+// Rename them EXACTLY like below (or change import names accordingly)
+import nirmanLogo from '../assets/initiatives/nirman.jpg';
+import innovativeIdeasLogo from '../assets/initiatives/innovative-ideas.jpg';
+import nationalIdeaBankLogo from '../assets/initiatives/national-idea-bank.jpg';
+import innovativeIdeasAltLogo from '../assets/initiatives/innovative-ideas-alt.jpg';
+import startupTownhallLogo from '../assets/initiatives/startup-townhall.jpg';
+import doctorsIdeaLogo from '../assets/initiatives/doctors-idea.jpg';
+import indiaDesignLogo from '../assets/initiatives/india-design.jpg';
+
 const About = () => {
+    const initiatives = [
+        { src: nirmanLogo, title: 'Nirman' },
+        { src: innovativeIdeasLogo, title: 'Innovative Ideas of India' },
+        { src: nationalIdeaBankLogo, title: 'National Idea Bank' },
+        { src: innovativeIdeasAltLogo, title: 'Innovative Ideas of India (Alt)' },
+        { src: startupTownhallLogo, title: 'Startup Townhall' },
+        { src: doctorsIdeaLogo, title: "Doctors' Idea for India" },
+        { src: indiaDesignLogo, title: 'India Design by GIMS' },
+    ];
+
     return (
         <section className="about-section">
             <div className="about-container">
@@ -27,6 +47,17 @@ const About = () => {
                         <span className="step">Commercialize</span>
                     </div>
 
+                    {/* ✅ NEW: Initiatives / Partners Logos */}
+                    <div className="about-initiatives">
+                        <h3 className="about-initiatives-heading">Our Indicative / Initiatives & Partners</h3>
+                        <div className="about-logos-grid">
+                            {initiatives.map((item, idx) => (
+                                <div className="about-logo-card" key={idx} title={item.title}>
+                                    <img src={item.src} alt={item.title} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
 
                     <Link to="/about" className="learn-more-button">
                         Learn More

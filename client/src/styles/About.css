@@ -63,6 +63,52 @@
     font-size: 1.2rem;
 }
 
+/* ✅ NEW: Initiatives / Partners section */
+.about-initiatives {
+    margin-top: 28px;
+    background: #ffffff;
+    padding: 18px 18px 8px;
+    border-radius: 12px;
+    border: 1px solid #e9edf3;
+    box-shadow: 0 4px 14px rgba(12, 16, 24, 0.06);
+}
+
+.about-initiatives-heading {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    color: #111;
+}
+
+.about-logos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    align-items: center;
+}
+
+.about-logo-card {
+    background: #f8fafc;
+    border: 1px solid #eef1f5;
+    border-radius: 10px;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    min-height: 80px;
+}
+
+.about-logo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.about-logo-card img {
+    max-width: 100%;
+    max-height: 60px;
+    object-fit: contain;
+    filter: saturate(1.05);
+}
 
 /* METRIC CARDS */
 .about-right {
@@ -144,5 +190,9 @@
 
     .about-metric-card {
         font-size: 0.95rem;
+    }
+
+    .about-logo-card img {
+        max-height: 52px;
     }
 }
