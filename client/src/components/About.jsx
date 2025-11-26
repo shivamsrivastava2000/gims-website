@@ -1,27 +1,26 @@
 // src/components/About.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/About.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "../styles/About.css";
 
-// ✅ Put these images inside: client/src/assets/initiatives/
-// Rename them EXACTLY like below (or change import names accordingly)
-import nirmanLogo from '../assets/initiatives/nirman.jpg';
-import innovativeIdeasLogo from '../assets/initiatives/innovative-ideas.jpg';
-import nationalIdeaBankLogo from '../assets/initiatives/national-idea-bank.jpg';
-import innovativeIdeasAltLogo from '../assets/initiatives/innovative-ideas-alt.jpg';
-import startupTownhallLogo from '../assets/initiatives/startup-townhall.jpg';
-import doctorsIdeaLogo from '../assets/initiatives/doctors-idea.jpg';
-import indiaDesignLogo from '../assets/initiatives/india-design.jpg';
+// ✅ Initiatives / Partners logos
+import nirman from "../assets/initiatives/nirman.jpg.jpg";
+import innovativeIdeas from "../assets/initiatives/innovative-ideas.jpg";
+import nationalIdeaBank from "../assets/initiatives/national-idea-bank.jpg";
+import innovativeIdeasAlt from "../assets/initiatives/innovative-ideas-alt.jpg";
+import startupTownhall from "../assets/initiatives/startup-townhall.jpg";
+import doctorsIdea from "../assets/initiatives/doctors-idea.jpg";
+import indiaDesign from "../assets/initiatives/india-design.jpg";
 
 const About = () => {
     const initiatives = [
-        { src: nirmanLogo, title: 'Nirman' },
-        { src: innovativeIdeasLogo, title: 'Innovative Ideas of India' },
-        { src: nationalIdeaBankLogo, title: 'National Idea Bank' },
-        { src: innovativeIdeasAltLogo, title: 'Innovative Ideas of India (Alt)' },
-        { src: startupTownhallLogo, title: 'Startup Townhall' },
-        { src: doctorsIdeaLogo, title: "Doctors' Idea for India" },
-        { src: indiaDesignLogo, title: 'India Design by GIMS' },
+        { src: nirman, alt: "Nirman" },
+        { src: innovativeIdeas, alt: "Innovative Ideas of India" },
+        { src: nationalIdeaBank, alt: "National Idea Bank" },
+        { src: innovativeIdeasAlt, alt: "Innovative Ideas of India (Alt)" },
+        { src: startupTownhall, alt: "Startup Townhall" },
+        { src: doctorsIdea, alt: "Doctors’ Idea for India" },
+        { src: indiaDesign, alt: "India Design by GIMS CMI" },
     ];
 
     return (
@@ -31,6 +30,7 @@ const About = () => {
                 {/* Left Side */}
                 <div className="about-left">
                     <h2 className="about-heading">Empowering Healthcare Innovation</h2>
+
                     <p className="about-subtitle">
                         GIMS Centre for Medical Innovation (CMI) is India's first public hospital-based medical incubator, nurturing healthcare startups with clinical trials, mentorship, and world-class facilities.
                         Our mission is to bridge clinical excellence and entrepreneurial spirit to create impactful, affordable healthcare solutions for India and beyond.
@@ -47,13 +47,16 @@ const About = () => {
                         <span className="step">Commercialize</span>
                     </div>
 
-                    {/* ✅ NEW: Initiatives / Partners Logos */}
-                    <div className="about-initiatives">
-                        <h3 className="about-initiatives-heading">Our Indicative / Initiatives & Partners</h3>
+                    {/* ✅ Indicative / Partners Card (NEW but integrated) */}
+                    <div className="about-indicative-card">
+                        <h3 className="about-indicative-title">
+                            Our Indicative / Initiatives & Partners
+                        </h3>
+
                         <div className="about-logos-grid">
-                            {initiatives.map((item, idx) => (
-                                <div className="about-logo-card" key={idx} title={item.title}>
-                                    <img src={item.src} alt={item.title} />
+                            {initiatives.map((item, i) => (
+                                <div className="about-logo-box" key={i}>
+                                    <img src={item.src} alt={item.alt} />
                                 </div>
                             ))}
                         </div>
@@ -78,7 +81,7 @@ const About = () => {
                     <div className="about-metric-card">
                         <h3>₹X Lakhs+<span> Grants Supported</span></h3>
                     </div>
-                    <div className="about-metric-card">
+                    <div className="about-metric-card about-metric-wide">
                         <h3>Stanford<span> Biodesign Collaboration</span></h3>
                     </div>
                 </div>
