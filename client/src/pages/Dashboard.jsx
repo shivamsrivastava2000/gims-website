@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../styles/Dashboard.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Dashboard = () => {
     const [user, setUser] = useState(null);
     const [forms, setForms] = useState([]);
@@ -16,7 +18,7 @@ const Dashboard = () => {
             if (currentUser) {
                 if (currentUser.emailVerified) {
                     setUser(currentUser);
-                    await fetchUserForms(currentUser.email);
+                    await fetchUserForms(currentUser);
                 } else {
                     toast.warn("📩 Please verify your email to access dashboard");
                     navigate("/login");
@@ -30,12 +32,16 @@ const Dashboard = () => {
         return () => unsub();
     }, [navigate]);
 
-    const fetchUserForms = async (email) => {
+    const fetchUserForms = async (currentUser) => {
         try {
-            const res = await fetch("https://gims-website.onrender.com/api/forms/all");
+            const token = await currentUser.getIdToken();
+            const res = await fetch(`${API_URL}/api/forms/user/${encodeURIComponent(currentUser.email)}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
             const data = await res.json();
-            const userForms = data.filter((form) => form.email === email);
-            setForms(userForms);
+            setForms(data);
         } catch (err) {
             console.error("Error fetching forms:", err.message);
         }

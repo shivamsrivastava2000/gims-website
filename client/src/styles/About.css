@@ -1,169 +1,209 @@
+/* ===========================
+   ABOUT SECTION
+   =========================== */
+
 .about-section {
-    padding: 80px 20px;
+    padding: 80px 0;
     background: #f5f7fa;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .about-container {
-    max-width: 1200px;
+    width: min(1200px, 100% - 40px);
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* --------- Top band: text + metrics ---------- */
+
+.about-main {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     gap: 40px;
-    align-items: start;
-    /* ✅ top aligned cleanly */
+    align-items: flex-start;
 }
 
 .about-left {
-    min-width: 300px;
+    min-width: 0;
 }
 
 .about-heading {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
+    line-height: 1.2;
     font-weight: 700;
     color: #111;
     margin-bottom: 18px;
 }
 
 .about-subtitle {
-    font-size: 1rem;
+    font-size: 0.98rem;
     color: #444;
-    line-height: 1.7;
-    margin-bottom: 18px;
+    line-height: 1.8;
+    margin-bottom: 24px;
 }
 
-/* FLOW STEPS */
+/* Flow steps */
+
 .about-process {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin: 22px 0 28px;
     flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
 }
 
 .step {
     background-color: #008080;
     color: #fff;
     padding: 8px 20px;
-    border-radius: 20px;
+    border-radius: 999px;
+    font-size: 0.9rem;
     font-weight: 500;
-    font-size: 0.95rem;
     white-space: nowrap;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .step:hover {
     background-color: #006666;
+    transform: translateY(-1px);
 }
 
 .arrow {
     color: #888;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
-/* =========================
-     ✅ Indicative / Partners
-     ========================= */
-.about-indicative-card {
-    margin-top: 18px;
-    background: #fff;
-    border: 1px solid #e7ebf0;
-    border-radius: 14px;
-    padding: 20px 18px;
-    box-shadow: 0 8px 20px rgba(16, 24, 40, 0.06);
-}
+/* Metrics */
 
-.about-indicative-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #111;
-    text-align: center;
-    margin-bottom: 16px;
-}
-
-.about-logos-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-}
-
-.about-logo-box {
-    background: #f8fafc;
-    border: 1px solid #eef2f7;
-    border-radius: 12px;
-    height: 90px;
-    display: grid;
-    place-items: center;
-    padding: 10px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.about-logo-box img {
-    max-width: 100%;
-    max-height: 60px;
-    object-fit: contain;
-    filter: contrast(1.05);
-}
-
-.about-logo-box:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-}
-
-/* METRIC CARDS */
 .about-right {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    align-content: start;
+    gap: 16px;
 }
 
 .about-metric-card {
     background: #111;
-    color: white;
-    padding: 18px 16px;
-    border-radius: 12px;
+    color: #fff;
+    padding: 18px 20px;
+    border-radius: 14px;
     text-align: center;
-    transition: transform 0.2s ease, background 0.2s ease;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 86px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .about-metric-card:hover {
     transform: translateY(-4px);
     background: #000;
-}
-
-.about-metric-card h3 {
-    font-size: 1.55rem;
-    margin: 0;
-}
-
-.about-metric-card span {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: #ccc;
-    margin-top: 4px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
 }
 
 .about-metric-wide {
-    grid-column: span 2;
-    /* ✅ Stanford card full width */
+    grid-column: 1 / -1;
 }
 
-/* LEARN MORE BUTTON */
-.learn-more-button {
+.metric-number {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: #d0d0d0;
+}
+
+/* --------- Initiatives block ---------- */
+
+.about-initiatives-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 26px 24px 30px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(15, 118, 110, 0.05);
+}
+
+.about-initiatives-header h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 6px;
+    color: #111827;
+}
+
+.about-initiatives-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* Grid of logos – FIXED & PREMIUM */
+
+.initiatives-grid {
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 22px;
+}
+
+.initiative-card {
+    background: #ffffff;
+    border-radius: 16px;
+    height: 110px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.initiative-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 38px rgba(15, 23, 42, 0.16);
+}
+
+.initiative-inner {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.initiative-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+    /* 🔥 fills as much as possible */
+}
+
+
+/* CTA */
+
+.about-cta-row {
     margin-top: 22px;
+    display: flex;
+    justify-content: center;
+}
+
+.learn-more-button {
     display: inline-block;
     background-color: #008080;
     color: #fff;
-    padding: 12px 28px;
-    border-radius: 8px;
+    padding: 11px 26px;
+    border-radius: 999px;
     font-weight: 600;
     text-decoration: none;
     font-size: 0.95rem;
     transition: all 0.25s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 14px rgba(0, 128, 128, 0.35);
 }
 
 .learn-more-button:hover {
@@ -171,31 +211,37 @@
     transform: translateY(-2px);
 }
 
-/* RESPONSIVE */
+/* --------- Responsive ---------- */
+
 @media (max-width: 992px) {
-    .about-container {
-        grid-template-columns: 1fr;
+    .about-main {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
     }
 
     .about-right {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (max-width: 600px) {
-    .about-logos-grid {
-        grid-template-columns: repeat(2, 1fr);
+@media (max-width: 640px) {
+    .about-section {
+        padding: 56px 0;
     }
 
-    .about-logo-box {
-        height: 80px;
+    .about-container {
+        width: min(100% - 24px, 100%);
+    }
+
+    .about-heading {
+        font-size: 2rem;
     }
 
     .about-right {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
-    .about-metric-wide {
-        grid-column: span 1;
+    .about-initiatives-card {
+        padding: 20px 18px 24px;
     }
 }

@@ -51,6 +51,23 @@ exports.submitForm = async (req, res) => {
     }
 };
 
+exports.getUserApplications = async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        // Verify the authenticated user is requesting their own forms
+        if (req.user.email !== email) {
+            return res.status(403).json({ error: "Forbidden: You can only access your own submissions" });
+        }
+
+        const applications = await MembershipApplication.find({ email }).sort({ submitted_at: -1 });
+        res.status(200).json(applications);
+    } catch (err) {
+        console.error("❌ Fetch Error:", err.message);
+        res.status(500).json({ error: "Failed to fetch user applications" });
+    }
+};
+
 exports.getAllApplications = async (req, res) => {
     try {
         const applications = await MembershipApplication.find().sort({ submitted_at: -1 });

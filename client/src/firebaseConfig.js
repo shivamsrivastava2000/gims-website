@@ -1,17 +1,27 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
+/*
+  IMPORTANT:
+  Ye config gims-auth Firebase project ka hai
+  (jo tumne abhi Web App register kiya hai)
+*/
+
 const firebaseConfig = {
-    apiKey: "AIzaSyC5JhBrIi4J-nBc4fztBok8trC2U6HdYAI",
-    authDomain: "gims-bio.firebaseapp.com",
-    projectId: "gims-bio",
-    storageBucket: "gims-bio.appspot.com",
-    messagingSenderId: "623938223674",
-    appId: "1:623938223674:web:e827d11772e0fafbb63f03"
+    apiKey: "AIzaSyB6Qu0Rfo6P5EMPG4LrlOhhxeTyM-1TcU0",
+    authDomain: "gims-auth.firebaseapp.com",
+    projectId: "gims-auth",
+    storageBucket: "gims-auth.firebasestorage.app",
+    messagingSenderId: "1092348675651",
+    appId: "1:1092348675651:web:229f0565c0dd467347b6f6",
+    measurementId: "G-RV8EG77YDP"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// ✅ Export for use in your login/signup components
+// Firebase Auth
 export const auth = getAuth(app);
+
+// Google Provider
 export const googleProvider = new GoogleAuthProvider();

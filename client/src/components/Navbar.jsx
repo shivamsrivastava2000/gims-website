@@ -21,7 +21,14 @@ function Navbar() {
     }, []);
 
     useEffect(() => {
-        const unsub = onAuthStateChanged(auth, setUser);
+        const unsub = onAuthStateChanged(auth, (currentUser) => {
+            // Only treat user as logged in if email is verified
+            if (currentUser && currentUser.emailVerified) {
+                setUser(currentUser);
+            } else {
+                setUser(null);
+            }
+        });
         return () => unsub();
     }, []);
 
@@ -29,12 +36,11 @@ function Navbar() {
         try {
             await signOut(auth);
             toast.success("✅ Logged out");
-            navigate('/'); // 🔄 Redirects to homepage
+            navigate('/');
         } catch (err) {
             toast.error("❌ " + err.message);
         }
     };
-
 
     const isAdmin = user?.email === 'shivamsrivastava126@gmail.com';
 

@@ -1,9 +1,11 @@
 const express = require("express");
 const upload = require("../middleware/upload");
-const { submitForm, getAllApplications } = require("../controllers/formController");
+const { submitForm, getAllApplications, getUserApplications } = require("../controllers/formController");
+const { verifyToken, verifyAdmin } = require("../middleware/auth");
 
 const router = express.Router();
 
+// Public: Submit a new membership application
 router.post(
     "/apply",
     upload.fields([
@@ -13,7 +15,10 @@ router.post(
     submitForm
 );
 
-// NEW: Admin route to fetch all applications
-router.get("/all", getAllApplications);
+// Admin only: Fetch all applications
+router.get("/all", verifyToken, verifyAdmin, getAllApplications);
+
+// Authenticated user: Fetch only their own applications
+router.get("/user/:email", verifyToken, getUserApplications);
 
 module.exports = router;

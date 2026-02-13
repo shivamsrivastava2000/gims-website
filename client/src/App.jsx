@@ -3,6 +3,7 @@ import ScrollToTop from './ScrollToTop';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -27,15 +28,21 @@ function App() {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/apply" element={<ApplyPage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                } />
                 <Route path="/contact" element={<ContactPage />} />
-                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin" element={
+                    <ProtectedRoute adminOnly>
+                        <AdminDashboard />
+                    </ProtectedRoute>
+                } />
                 <Route path="/thank-you" element={<ThankYou />} />
             </Routes>
             <Footer />
-            {/* ✅ Toasts work globally */}
             <ToastContainer position="top-right" autoClose={4000} limit={3} theme="light" pauseOnHover />
-
         </>
     );
 }

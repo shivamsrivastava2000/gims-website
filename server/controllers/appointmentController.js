@@ -19,7 +19,6 @@ if (
         process.env.GOOGLE_REDIRECT_URI
     );
 
-    // Set credentials using the refresh token
     oAuth2Client.setCredentials({
         refresh_token: process.env.GOOGLE_REFRESH_TOKEN
     });
@@ -40,7 +39,39 @@ const createAppointment = async (req, res) => {
                 .json({ success: false, message: 'All fields are required' });
         }
 
-        // 1. Save in MongoDB (same as before)
+        // Validate: no past dates
+        const requestedDate = new Date(appointmentDate);
+        if (requestedDate < new Date()) {
+            return res
+                .status(400)
+                .json({ success: false, message: 'Cannot book appointments in the past' });
+        }
+
+        // Validate: working hours only (9 AM - 5 PM IST)
+        const hours = requestedDate.getUTCHours() + 5.5; // Convert to IST
+        const istHours = hours >= 24 ? hours - 24 : hours;
+        if (istHours < 9 || istHours >= 17) {
+            return res
+                .status(400)
+                .json({ success: false, message: 'Appointments are only available between 9 AM and 5 PM IST' });
+        }
+
+        // Check for duplicate: same email within +/- 30 minutes of the requested slot
+        const slotStart = new Date(requestedDate.getTime() - 30 * 60000);
+        const slotEnd = new Date(requestedDate.getTime() + 30 * 60000);
+
+        const existingBooking = await Appointment.findOne({
+            email,
+            appointmentDate: { $gte: slotStart, $lte: slotEnd }
+        });
+
+        if (existingBooking) {
+            return res
+                .status(409)
+                .json({ success: false, message: 'You already have a booking around this time slot' });
+        }
+
+        // Save in MongoDB
         const newAppointment = new Appointment({
             name,
             email,
@@ -49,7 +80,8 @@ const createAppointment = async (req, res) => {
         });
         await newAppointment.save();
 
-        // 2. Create Google Calendar Event (but don't crash if it fails)
+        // Create Google Calendar Event (don't crash if it fails)
+        let calendarSynced = false;
         if (oAuth2Client) {
             try {
                 const calendar = google.calendar({ version: 'v3', auth: oAuth2Client });
@@ -70,7 +102,7 @@ const createAppointment = async (req, res) => {
                     },
                     attendees: [
                         { email },
-                        { email: 'drrahulsinghindia@gmail.com' } // boss email (same as before)
+                        { email: 'drrahulsinghindia@gmail.com' }
                     ]
                 };
 
@@ -79,26 +111,19 @@ const createAppointment = async (req, res) => {
                     resource: event
                 });
 
-                // If everything goes fine, same success message as before
-                return res.status(201).json({
-                    success: true,
-                    message: 'Appointment booked and added to Google Calendar!'
-                });
+                calendarSynced = true;
             } catch (calErr) {
-                console.error('⚠️ Google Calendar error:', calErr);
-                // Appointment is already saved in DB, so we still send success
-                return res.status(201).json({
-                    success: true,
-                    message: 'Appointment booked, but Calendar sync failed.'
-                });
+                console.error('⚠️ Google Calendar error:', calErr.message);
             }
-        } else {
-            console.warn('⚠️ oAuth2Client not initialized. Skipping Google Calendar event.');
-            return res.status(201).json({
-                success: true,
-                message: 'Appointment booked successfully.'
-            });
         }
+
+        return res.status(201).json({
+            success: true,
+            message: calendarSynced
+                ? 'Appointment booked and added to Google Calendar!'
+                : 'Appointment booked successfully.'
+        });
+
     } catch (err) {
         console.error('❌ Error booking appointment:', err);
         return res

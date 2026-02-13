@@ -6,11 +6,14 @@ import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     sendPasswordResetEmail,
+    sendEmailVerification,
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -29,9 +32,13 @@ const Login = () => {
 
     const saveUserToBackend = async (firebaseUser) => {
         try {
-            await fetch("https://gims-website.onrender.com/api/users/save", {
+            const token = await firebaseUser.getIdToken();
+            await fetch(`${API_URL}/api/users/save`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
                 body: JSON.stringify({
                     uid: firebaseUser.uid,
                     email: firebaseUser.email,
@@ -43,13 +50,13 @@ const Login = () => {
         }
     };
 
-
     const handleEmailAuth = async (e) => {
         e.preventDefault();
         try {
             if (isSignup) {
                 const userCred = await createUserWithEmailAndPassword(auth, email, pass);
-                await userCred.user.sendEmailVerification();
+                await sendEmailVerification(userCred.user);
+                await saveUserToBackend(userCred.user);
                 toast.success("✅ Signup successful! Verification email sent.");
             } else {
                 const userCred = await signInWithEmailAndPassword(auth, email, pass);
@@ -70,6 +77,10 @@ const Login = () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
+            if (!user.emailVerified) {
+                toast.warn("📩 Please verify your email before logging in.");
+                return;
+            }
             await saveUserToBackend(user);
             toast.success("✅ Logged in with Google!");
             navigate('/dashboard');

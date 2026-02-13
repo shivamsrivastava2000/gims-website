@@ -49,12 +49,29 @@ const Contact = () => {
         });
     // ------------------------------------------
 
+    // Working hours: 9 AM to 5 PM
+    const minTime = new Date();
+    minTime.setHours(9, 0, 0, 0);
+    const maxTime = new Date();
+    maxTime.setHours(17, 0, 0, 0);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!form.name || !form.email || !appointmentDate || !form.message) {
-            // immediate error toast (no request)
-            toast.error(makeBody('Please fill in all fields'), {
+            toast.error(makeBody('Please fill in all fields', 'Make sure to select a date & time.'), {
+                icon: icons.error,
+                className: 'toast-modern toast-error',
+                progressClassName: 'toast-progress',
+                closeButton: true,
+                autoClose: 3000,
+            });
+            return;
+        }
+
+        // Prevent past dates (extra safety beyond DatePicker minDate)
+        if (appointmentDate < new Date()) {
+            toast.error(makeBody('Invalid date', 'Please select a future date and time.'), {
                 icon: icons.error,
                 className: 'toast-modern toast-error',
                 progressClassName: 'toast-progress',
@@ -69,18 +86,15 @@ const Contact = () => {
             appointmentDate: appointmentDate.toISOString(),
         };
 
-        // ✅ show toast immediately
         const toastId = showLoadingToast();
 
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/appointments/book`, {
-
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(bookingData),
             });
 
-            // If server returns non-JSON on error, guard this:
             let data = {};
             try {
                 data = await res.json();
@@ -107,7 +121,7 @@ const Contact = () => {
             <h2 className="contact-heading">Book an Appointment</h2>
 
             <div className="contact-grid">
-                {/* ✅ Left: Google Map */}
+                {/* Left: Google Map */}
                 <div className="map-container">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4644.106447968175!2d77.52973669038884!3d28.43420912083827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cc05b6a0c8273%3A0xcff4548bd51c4894!2sGovernment%20Institute%20of%20Medical%20Sciences%E2%80%8B!5e0!3m2!1sen!2sin!4v1746092025926!5m2!1sen!2sin"
@@ -121,7 +135,7 @@ const Contact = () => {
                     ></iframe>
                 </div>
 
-                {/* ✅ Right: Form + Contact Info */}
+                {/* Right: Form + Contact Info */}
                 <div className="contact-left">
                     <form className="contact-form" onSubmit={handleSubmit}>
                         <div className="input-row">
@@ -152,7 +166,14 @@ const Contact = () => {
                             dateFormat="MMMM d, yyyy h:mm aa"
                             placeholderText="Select Date & Time"
                             className="appointment-datepicker"
-                            required
+                            minDate={new Date()}
+                            minTime={minTime}
+                            maxTime={maxTime}
+                            filterDate={(date) => {
+                                // Disable weekends (Sunday = 0)
+                                const day = date.getDay();
+                                return day !== 0;
+                            }}
                         />
 
                         <textarea

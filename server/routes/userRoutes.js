@@ -1,12 +1,19 @@
 const express = require('express');
 const User = require('../models/User');
+const { verifyToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.post('/save', async (req, res) => {
+// Save user after login/signup (requires valid Firebase token)
+router.post('/save', verifyToken, async (req, res) => {
     const { uid, email, name } = req.body;
 
     if (!uid || !email) return res.status(400).json({ message: 'Missing data' });
+
+    // Verify that the token UID matches the request UID
+    if (req.user.uid !== uid) {
+        return res.status(403).json({ message: 'Token UID does not match request UID' });
+    }
 
     try {
         let user = await User.findOne({ uid });

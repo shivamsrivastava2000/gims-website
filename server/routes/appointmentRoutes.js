@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { verifyToken, verifyAdmin } = require('../middleware/auth');
 
 const {
     createAppointment,
@@ -7,8 +8,13 @@ const {
     deleteAppointment
 } = require('../controllers/appointmentController');
 
+// Public: book an appointment
 router.post('/book', createAppointment);
-router.get('/all', getAppointments); // for admin
-router.delete('/:id', deleteAppointment); // ✅ add this for deleting
+
+// Admin only: get all appointments
+router.get('/all', verifyToken, verifyAdmin, getAppointments);
+
+// Admin only: delete an appointment
+router.delete('/:id', verifyToken, verifyAdmin, deleteAppointment);
 
 module.exports = router;

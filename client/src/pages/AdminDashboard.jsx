@@ -4,6 +4,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "../styles/AdminDashboard.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AdminDashboard = () => {
     const [user, setUser] = useState(null);
     const [users, setUsers] = useState([]);
@@ -29,28 +31,40 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         if (user) {
-            fetch("https://gims-website.onrender.com/api/admin/users")
-                .then((res) => res.json())
-                .then((data) => setUsers(data));
+            const fetchAdminData = async () => {
+                try {
+                    const token = await user.getIdToken();
+                    const headers = { "Authorization": `Bearer ${token}` };
 
-            fetch("https://gims-website.onrender.com/api/forms/all")
-                .then((res) => res.json())
-                .then((data) => setForms(data));
+                    const [usersRes, formsRes, appointmentsRes] = await Promise.all([
+                        fetch(`${API_URL}/api/admin/users`, { headers }),
+                        fetch(`${API_URL}/api/forms/all`, { headers }),
+                        fetch(`${API_URL}/api/appointments/all`, { headers }),
+                    ]);
 
-            fetch("https://gims-website.onrender.com/api/appointments/all")
-                .then((res) => res.json())
-                .then((data) => setAppointments(data));
+                    setUsers(await usersRes.json());
+                    setForms(await formsRes.json());
+                    setAppointments(await appointmentsRes.json());
+                } catch (err) {
+                    console.error("Error fetching admin data:", err);
+                }
+            };
+            fetchAdminData();
         }
     }, [user]);
 
-    const deleteAppointment = (id) => {
-        fetch(`https://gims-website.onrender.com/api/appointments/${id}`, { method: "DELETE" })
-            .then((res) => res.json())
-            .then(() => {
-                setAppointments((prev) => prev.filter((a) => a._id !== id));
+    const deleteAppointment = async (id) => {
+        try {
+            const token = await user.getIdToken();
+            await fetch(`${API_URL}/api/appointments/${id}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` },
             });
+            setAppointments((prev) => prev.filter((a) => a._id !== id));
+        } catch (err) {
+            console.error("Error deleting appointment:", err);
+        }
     };
-
 
     const exportAppointmentsCSV = () => {
         const headers = ["Name", "Email", "Message", "Date & Time"];
