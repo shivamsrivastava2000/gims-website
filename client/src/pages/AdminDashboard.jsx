@@ -16,13 +16,11 @@ const AdminDashboard = () => {
     const [appointmentFilterMonth, setAppointmentFilterMonth] = useState("");
     const navigate = useNavigate();
 
-    const bossEmail = "shivamsrivastava126@gmail.com";
+
 
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (currentUser) => {
-            if (!currentUser || currentUser.email !== bossEmail) {
-                navigate("/login");
-            } else {
+            if (currentUser) {
                 setUser(currentUser);
             }
         });
